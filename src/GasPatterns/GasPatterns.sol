@@ -101,11 +101,9 @@ contract Gas_DataLocation {
     // Using `memory` forces the EVM to copy the array from
     // calldata into memory. This `calldatacopy` operation
     // costs gas proportional to the size of the array.
-    function sumWithMemory(uint256[] memory data)
-        external
-        pure
-        returns (uint256 sum)
-    {
+    function sumWithMemory(
+        uint256[] memory data
+    ) external pure returns (uint256 sum) {
         uint256 len = data.length;
         for (uint256 i = 0; i < len; i++) {
             sum += data[i];
@@ -115,11 +113,9 @@ contract Gas_DataLocation {
     // Using `calldata` (only available for `external` functions)
     // reads directly from the transaction's input data,
     // avoiding the expensive copy to memory.
-    function sumWithCalldata(uint256[] calldata data)
-        external
-        pure
-        returns (uint256 sum)
-    {
+    function sumWithCalldata(
+        uint256[] calldata data
+    ) external pure returns (uint256 sum) {
         uint256 len = data.length;
         for (uint256 i = 0; i < len; i++) {
             sum += data[i];
@@ -144,11 +140,22 @@ contract Gas_Unchecked {
     // When we are *certain* an operation cannot over/underflow
     // (like a loop counter we know won't exceed 2^256),
     // we can use `unchecked` to save the gas from those checks.
+    // 119960 gas
     function uncheckedLoop() public pure returns (uint256 sum) {
         unchecked {
             for (uint256 i = 0; i < 100; i++) {
                 sum += i;
             }
+        }
+    }
+    // When we are *certain* an operation cannot over/underflow
+    // (like a loop counter we know won't exceed 2^256),
+    // we can use `unchecked` to save the gas from those checks.
+    // 119960 gas
+    function uncheckedLoopCounter() public pure returns (uint256 sum) {
+        for (uint256 i = 0; i < 100;) {
+            sum += i;
+            unchecked {i++;}
         }
     }
 }

@@ -111,4 +111,7 @@ contract GasTest is Test {
     function test_Gas_UncheckedLoop() public  {
         new Gas_Unchecked().uncheckedLoop();
     }
+    function test_Gas_UncheckedLoop_Counter() public  {
+        new Gas_Unchecked().uncheckedLoopCounter();
+    }
 }
